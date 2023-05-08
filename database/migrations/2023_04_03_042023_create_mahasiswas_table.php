@@ -8,23 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
-            $table->integer('nim')->primary();
-            $table->string('nama');
-            $table->string('kelas');
-            $table->string('jurusan');
-            $table->string('no_handphone');
-
+            $table->string('Nim', 25)->index()->primary();
+            $table->string('Nama', 100)->index();
+            $table->string('Kelas', 100)->index();
+            $table->string('Jurusan', 100)->index();
+            $table->string('No_Handphone', 20)->index()->nullable();
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('mahasiswas');
     }

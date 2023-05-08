@@ -15,20 +15,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('mahasiswa', MahasiswaController::class);
+Route::resource('mahasiswas', MahasiswaController::class);
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
