@@ -6,10 +6,13 @@
  <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
  </div>
  
-    <div class="float-right my-2">
-        <a class="btn btn-success" href="{{ route('mahasiswas.create') }}" style="margin-left:9cm"> Input Mahasiswa</a>
+ <form class="form-left my-4" method="get" action="{{ route('search') }}">
+    <div class="form-group w-80 mb-3">
+        <input type="text" name="search" class="form-control w-50 d-inline" id="search" placeholder="Search">
+        <button type="submit" class="btn btn-secondary mb-1">Search</button>
+        <a class="btn btn-success right" href="{{ route('mahasiswas.create') }}" style="margin-left:8cm"> Input Mahasiswa</a>
     </div>
-</form>
+ </form>
  </div>
  </div>
 
@@ -22,21 +25,25 @@
 
  <table class="table table-bordered">
  <tr>
- <th>Nim</th>
- <th>Nama</th>
- <th>Kelas</th>
- <th>Jurusan</th>
- <th>No_Handphone</th>
+    <th>Nim</th>
+    <th>Nama</th>
+    <th>Tanggal_Lahir</th>
+    <th>Kelas</th>
+    <th>Jurusan</th>
+    <th>No_Handphone</th>
+    <th>Email</th>
  <th width="280px">Action</th>
  </tr>
  @foreach ($mahasiswas as $Mahasiswa)
  <tr>
 
- <td>{{ $Mahasiswa->Nim }}</td>
- <td>{{ $Mahasiswa->Nama }}</td>
- <td>{{ $Mahasiswa->Kelas }}</td>
- <td>{{ $Mahasiswa->Jurusan }}</td>
- <td>{{ $Mahasiswa->No_Handphone }}</td>
+    <td>{{ $Mahasiswa->Nim }}</td>
+    <td>{{ $Mahasiswa->Nama }}</td>
+    <td>{{ $Mahasiswa->Tanggal_Lahir }}</td>
+    <td>{{ $Mahasiswa->Kelas }}</td>
+    <td>{{ $Mahasiswa->Jurusan }}</td>
+    <td>{{ $Mahasiswa->No_Handphone }}</td>
+    <td>{{ $Mahasiswa->Email }}</td>
  <td>
  <form action="{{ route('mahasiswas.destroy',$Mahasiswa->Nim) }}" method="POST">
 
@@ -50,4 +57,5 @@
  </tr>
  @endforeach
  </table>
- @endsection
+ {!! $mahasiswas->withQueryString()->links('pagination::bootstrap-5') !!} 
+@endsection
