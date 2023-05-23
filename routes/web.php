@@ -26,3 +26,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/search', [MahasiswaController::class, 'search'])->name('search');
 Route::get('/khs/{Nim}', [MahasiswaController::class, 'khs'])->name('khs');
+Route::get('/khs/{mahasiswa_nim}/print_pdf', [MahasiswaController::class, 'print_pdf'])->name('print_pdf');

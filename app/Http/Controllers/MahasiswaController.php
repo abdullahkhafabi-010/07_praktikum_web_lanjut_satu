@@ -7,6 +7,8 @@ use App\Models\Kelas;
 use App\Models\Mahasiswa_Matakuliah;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class MahasiswaController extends Controller
 {
@@ -31,6 +33,9 @@ class MahasiswaController extends Controller
     
     public function store(Request $request)
     {
+        if ($request->file('image')) {
+            $image_name = $request->file('image')->store('images', 'public');
+        }
         //melakukan validasi data
         $request->validate([
             'Nim' => 'required',
@@ -45,6 +50,7 @@ class MahasiswaController extends Controller
         $mahasiswa= new Mahasiswa;
         $mahasiswa->Nim=$request->get('Nim');
         $mahasiswa->Nama=$request->get('Nama');
+        $mahasiswa->Featured_Image = $image_name;
         $mahasiswa->Tanggal_Lahir=$request->get('Tanggal_Lahir');
         $mahasiswa->Jurusan=$request->get('Jurusan');
         $mahasiswa->No_Handphone=$request->get('No_Handphone');
@@ -90,9 +96,18 @@ class MahasiswaController extends Controller
             'Email' => 'required',
         ]);
         // fungsi eloquent untuk mengupdate data inputan kita
+        
         $mahasiswa=Mahasiswa::find($Nim);
+
         $mahasiswa->Nim=$request->get('Nim');
         $mahasiswa->Nama=$request->get('Nama');
+
+        if ($mahasiswa->Featured_Image && file_exists(storage_path('app/public/' . $mahasiswa->Featured_Image))) {
+            Storage::delete('public/' . $mahasiswa->Featured_Image);
+        }
+        $image_name = $request->file('image')->store('images', 'public');
+        
+        $mahasiswa->Featured_Image = $image_name;
         $mahasiswa->Tanggal_Lahir=$request->get('Tanggal_Lahir');
         $mahasiswa->Jurusan=$request->get('Jurusan');
         $mahasiswa->No_Handphone=$request->get('No_Handphone');
@@ -130,7 +145,15 @@ class MahasiswaController extends Controller
         $Mahasiswa = Mahasiswa::find($Nim);
         $Matakuliah = Matakuliah::all();
         //$MataKuliah = $Mahasiswa->MataKuliah()->get();
-        $Mahasiswa_Matakuliah = Mahasiswa_Matakuliah::where('mahasiswa_id', '=', $Nim)->get();
-        return view('mahasiswas.khs', ['Mahasiswa' => $Mahasiswa], ['MahasiswaMatakuliah' => $Mahasiswa_Matakuliah], compact('Mahasiswa_Matakuliah'));
+        $Mahasiswa_Matakuliah = Mahasiswa_Matakuliah::where('mahasiswa_nim', '=', $Nim)->get();
+        return view('mahasiswas.khs', ['Mahasiswa' => $Mahasiswa], ['Mahasiswa_Matakuliah' => $Mahasiswa_Matakuliah], compact('Mahasiswa_Matakuliah'));
+    }
+    public function print_pdf($Nim)
+    {
+        $Mahasiswa = Mahasiswa::find($Nim);
+        $Matakuliah = Matakuliah::all();
+        $Mahasiswa_Matakuliah = Mahasiswa_Matakuliah::where('mahasiswa_nim', '=', $Nim)->get();
+        $pdf = PDF::loadView('mahasiswas.khs_pdf', compact('Mahasiswa', 'Mahasiswa_Matakuliah'));
+        return $pdf->stream();
     }
 }

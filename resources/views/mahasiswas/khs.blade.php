@@ -24,7 +24,7 @@
                                 <th>Semester</th>
                                 <th>Nilai</th>
                             </tr>
-                            @foreach ($MahasiswaMatakuliah as $MahasiswaMatakuliah)
+                            @foreach ($Mahasiswa_Matakuliah as $MahasiswaMatakuliah)
                             <tr>
                                 <td>{{ $MahasiswaMatakuliah->matakuliah->nama_matkul }}</td> 
                                 <td>{{ $MahasiswaMatakuliah->matakuliah->sks }}</td>

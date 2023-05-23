@@ -30,6 +30,11 @@
                             <input type="Nama" name="Nama" class="form-control" id="Nama" aria-describedby="Nama" >
                         </div>
                         <div class="form-group">
+                            <label for="image">Foto: </label>
+                            <input type="file" class="form-control" name="image" required="required"
+                                id="Featured_Image" aria-describedby="Featured_Image">
+                        </div>
+                        <div class="form-group">
                             <label for="Tanggal_Lahir">Tanggal_Lahir</label>
                             <input type="text" name="Tanggal_Lahir" class="form-control" id="Tanggal_Lahir" aria-describedby="Tanggal_Lahir" >
                         </div>
